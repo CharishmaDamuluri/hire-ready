@@ -1,6 +1,8 @@
 import { AnalysisOutput } from "@/app/types/analysis";
 import ScoreCard from "./ScoreCard";
 import SkillsGrid from "./SkillsGrid";
+import CoverLetter from "./CoverLetter";
+import ResumeHighlights from "./ResumeHighlights";
 
 interface AnalysisResultProps {
   result: AnalysisOutput;
@@ -18,6 +20,8 @@ export default function AnalysisResult({ result }: AnalysisResultProps) {
         matchedSkills={result.matchedSkills}
         missingSkills={result.missingSkills}
       />
+      <ResumeHighlights highlights={result.resumeHighlights} />
+      <CoverLetter coverLetter={result.coverLetter} />
     </section>
   );
 }

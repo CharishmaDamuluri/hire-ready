@@ -63,18 +63,22 @@ export default function ResumeInput({ value, onChange }: ResumeInputProps) {
       aria-label="Resume input"
       className="bg-white border rounded-xl p-5 space-y-4"
     >
-      <div className="flex items-center justify-between">
+      <div>
         <h2 className="font-semibold text-gray-800 text-sm">Your Resume</h2>
         <div
           role="tablist"
           aria-label="Input mode"
-          className="flex gap-1 bg-gray-100 p-1 rounded-lg"
+          className="flex gap-1 border-b border-gray-200"
         >
           <button
             role="tab"
             aria-selected={mode === "upload"}
             onClick={() => setMode("upload")}
-            className="px-3 py-1 rounded-md text-xs font-medium transition bg-white text-gray-800 shadow-sm"
+            className={`px-3 py-1.5 rounded-t-md text-xs font-medium transition border ${
+              mode === "upload"
+                ? "bg-white text-gray-900 border-gray-200 border-b-white shadow-sm"
+                : "bg-transparent text-gray-500 border-transparent hover:text-gray-800 hover:bg-gray-50"
+            }`}
           >
             Upload File
           </button>
@@ -82,7 +86,11 @@ export default function ResumeInput({ value, onChange }: ResumeInputProps) {
             role="tab"
             aria-selected={mode === "paste"}
             onClick={() => setMode("paste")}
-            className="px-3 py-1 rounded-md text-xs font-medium transition bg-white text-gray-800 shadow-sm"
+            className={`px-3 py-1.5 rounded-t-md text-xs font-medium transition border ${
+              mode === "paste"
+                ? "bg-white text-gray-900 border-gray-200 border-b-white shadow-sm"
+                : "bg-transparent text-gray-500 border-transparent hover:text-gray-800 hover:bg-gray-50"
+            }`}
           >
             Paste text
           </button>

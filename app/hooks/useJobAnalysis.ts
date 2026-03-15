@@ -22,50 +22,45 @@ export function useJobAnalysis() {
 
     // Extracting agent steps from tool calls
     // filter only tool call from all parts
-    const steps: AgentStep[] = allParts
-      .filter((p) => p.type === "tool-invocation")
-      .map((p, i) => {
-        const toolCall = p as unknown as {
-          type: "tool-invocation";
-          toolName: string;
-          input: Record<string, unknown>;
+    const toolParts = allParts.filter((p: unknown) => {
+      const part = p as { type: string };
+      return part.type.startsWith("tool-");
+    });
+
+    const steps: AgentStep[] = toolParts
+      .filter((p: any) => (p as { state: string }).state === "output-available")
+      .map((p: any, i: number) => {
+        const part = p as {
+          type: string;
+          state: string;
+          input?: Record<string, unknown>;
         };
+        const toolName = part.type.replace("tool-", "");
         return {
           id: i,
-          toolName: toolCall.toolName,
-          label: TOOL_LABELS[toolCall.toolName] ?? toolCall.toolName,
-          // For searchResume to show what it searched for
+          toolName,
+          label: TOOL_LABELS[toolName] ?? toolName,
           detail:
-            toolCall.toolName === "searchResume"
-              ? `"${(toolCall.input as { query: string }).query}"`
+            toolName === "searchResume" && part.input
+              ? `"${(part.input as { query: string }).query}"`
               : undefined,
         };
       });
 
-    const analysisPart = allParts.find((p) => {
-      if (p.type !== "tool-invocation") return false;
-      const tr = p as unknown as {
-        type: "tool-invocation";
-        toolName: string;
-        state: string;
-        output: unknown;
-      };
-      return tr.toolName === "generateAnalysis" && tr.state === "output";
+    const analysisPart = toolParts.find((p) => {
+      const part = p as { type: string; state: string };
+      return (
+        part.type === "tool-generateAnalysis" &&
+        part.state === "output-available"
+      );
     });
 
     if (analysisPart && status === "ready") {
-      const toolResult = analysisPart as unknown as {
-        type: "tool-invocation";
-        output: unknown;
-      };
-      return {
-        status: "done",
-        steps,
-        result: toolResult.output as AnalysisOutput,
-      };
+      const part = analysisPart as { output: unknown };
+      return { status: "done", steps, result: part.output as AnalysisOutput };
     }
     // Agent is still working
-    if (status === "streaming") {
+    if (status === "streaming" || status === "submitted") {
       return { status: "working", steps };
     }
     // Fallback — ready but no result yet

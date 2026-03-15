@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useJobAnalysis } from "./hooks/useJobAnalysis";
+import ResumeInput from "./components/ResumeInput";
+import JobInput from "./components/JobDescription";
 
 export default function Home() {
   const [resume, setResume] = useState("");
@@ -28,7 +30,14 @@ export default function Home() {
         </header>
 
         {/* IDLE - Show job input, resume input and analyze match button */}
-        {isIdle && <></>}
+        {isIdle && (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <ResumeInput value={resume} onChange={setResume} />
+              <JobInput value={jobDescription} onChange={setJobDescription} />
+            </div>
+          </>
+        )}
         {/* PROGRESS - Show the steps */}
         {(analysisState.status === "working" ||
           analysisState.status === "done") && <></>}

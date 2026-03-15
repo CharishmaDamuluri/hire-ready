@@ -13,8 +13,15 @@ const TOOL_LABELS: Record<string, string> = {
 };
 
 export function useJobAnalysis() {
-  const { messages, sendMessage, status } = useChat();
+  const { messages, sendMessage, status, error } = useChat();
   const analysisState: AnalysisState = useMemo(() => {
+    if (error) {
+      return {
+        status: "error",
+        message: error.message ?? "Something went wrong. Please try again.",
+      };
+    }
+
     if (messages.length === 0) return { status: "idle" };
 
     // Collecting all tool call parts from all messages
@@ -63,9 +70,17 @@ export function useJobAnalysis() {
     if (status === "streaming" || status === "submitted") {
       return { status: "working", steps };
     }
+
+    if (status === "ready" && messages.length > 0 && !analysisPart) {
+      return {
+        status: "error",
+        message: "Analysis did not complete. Please try again.",
+      };
+    }
+
     // Fallback — ready but no result yet
     return { status: "working", steps };
-  }, [messages, status]);
+  }, [messages, status, error]);
 
   function analyze(resume: string, jobDescription: string) {
     sendMessage({

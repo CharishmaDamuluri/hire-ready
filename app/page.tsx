@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useJobAnalysis } from "./hooks/useJobAnalysis";
 import ResumeInput from "./components/ResumeInput";
 import JobInput from "./components/JobDescription";
+import AgentProgress from "./components/AgentProgress";
+import AnalysisResult from "./components/AnalysisResult";
 
 export default function Home() {
   const [resume, setResume] = useState("");
@@ -36,13 +38,39 @@ export default function Home() {
               <ResumeInput value={resume} onChange={setResume} />
               <JobInput value={jobDescription} onChange={setJobDescription} />
             </div>
+            <div className="flex justify-center">
+              <button
+                onClick={handleAnalyze}
+                disabled={!canAnalyze}
+                aria-disabled={!canAnalyze}
+                className="bg-blue-600 hover:bg-blue-500 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium px-8 py-3 rounded-xl text-sm transition"
+              >
+                Analyze Match
+              </button>
+            </div>
           </>
         )}
         {/* PROGRESS - Show the steps */}
-        {(analysisState.status === "working" ||
-          analysisState.status === "done") && <></>}
+        {analysisState.status === "working" && (
+          <AgentProgress
+            steps={analysisState.steps}
+            isWorking={analysisState.status === "working"}
+          />
+        )}
         {/* DONE - Show results found */}
-        {analysisState.status === "done" && <></>}
+        {analysisState.status === "done" && (
+          <>
+            <AnalysisResult result={analysisState.result} />
+            <div className="flex justify-center">
+              <button
+                onClick={() => window.location.reload()}
+                className="text-sm text-gray-400 hover:text-gray-600 underline"
+              >
+                Start over
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </main>
   );

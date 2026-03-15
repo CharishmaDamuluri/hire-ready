@@ -36,9 +36,19 @@ export default function ResumeInput({ value, onChange }: ResumeInputProps) {
       } else {
         text = await file.text();
       }
-
       if (!text.trim()) throw new Error("No text could be extracted");
+      // Ingest into pgvector so the agent can search it
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/ingest", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
 
+      if (!res.ok) throw new Error(data.error ?? "Ingest failed");
+
+      console.log("Ingested:", data.chunksCreated, "chunks");
       onChange(text);
       setUploadStatus("done");
     } catch (err) {

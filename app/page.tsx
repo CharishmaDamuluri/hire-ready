@@ -11,7 +11,7 @@ import ErrorState from "./components/ErrorState";
 export default function Home() {
   const [resume, setResume] = useState("");
   const [jobDescription, setJobDescription] = useState("");
-  const { analysisState, analyze } = useJobAnalysis();
+  const { analysisState, analyze, reset } = useJobAnalysis();
   const [resumeReady, setResumeReady] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
 
@@ -22,6 +22,7 @@ export default function Home() {
 
   function handleAnalyze() {
     if (!canAnalyze) return;
+    reset();
     setAnalyzing(true);
     analyze(resume, jobDescription);
   }

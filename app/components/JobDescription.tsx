@@ -17,7 +17,7 @@ export default function JobInput({ value, onChange }: JobInputProps) {
         placeholder="Paste the full job description here including requirements, responsibilities, and nice-to-haves..."
         aria-label="Job description"
         rows={8}
-        className="w-full text-sm border rounded-xl p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+        className="w-full text-sm text-gray-900 bg-white border rounded-xl p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
       />
 
       {value && (

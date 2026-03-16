@@ -13,7 +13,7 @@ const TOOL_LABELS: Record<string, string> = {
 };
 
 export function useJobAnalysis() {
-  const { messages, sendMessage, status, error } = useChat();
+  const { messages, sendMessage, status, error, setMessages } = useChat();
   const analysisState: AnalysisState = useMemo(() => {
     if (error) {
       return {
@@ -94,5 +94,9 @@ export function useJobAnalysis() {
     });
   }
 
-  return { analysisState, analyze };
+  function reset() {
+    setMessages([]);
+  }
+
+  return { analysisState, analyze, reset };
 }

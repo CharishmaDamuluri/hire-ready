@@ -1,6 +1,6 @@
 # HireReady
 
-A job application analyzer built to demonstrate **agentic AI with tool calling**, **RAG-powered retrieval**, **automated evaluation**, and **LLM observability**. The LLM doesn't just answer a question — it decides what steps to take, calls tools in sequence, reasons over the results, and produces a structured analysis.
+An agentic resume analyzer where the LLM controls its own search strategy,calls tools in sequence, and produces structured output — not just an answer, but built to demonstrate **agentic AI with tool calling**, **RAG-powered retrieval**, **automated evaluation**, and **LLM observability**. The LLM doesn't just answer a question — it decides what steps to take, calls tools in sequence, reasons over the results, and produces a structured analysis.
 
 **Live demo:** [HireReadyApp](https://hire-ready-nine.vercel.app/)
 
@@ -206,6 +206,9 @@ npm run dev
 **Structured output via Zod tool**
 `generateAnalysis` forces typed JSON output instead of free text, making results deterministic enough to render as UI components.
 
+**Sliding window chunking over fixed-size splitting**
+The chunker uses overlapping windows so context at chunk boundaries is not lost during retrieval. Matters most for multi-line resume bullets that describe a single experience.
+
 **Resume persists across analyses**
 The DB is only cleared when a new resume is uploaded — users can test multiple job descriptions without re-uploading.
 
@@ -223,5 +226,16 @@ Tool call start times are captured via `onChunk` and end times via `onStepFinish
 - Match score is LLM-reasoned, not deterministic — may vary slightly between runs
 - Very dense resumes may need a higher `topK` to surface all relevant experience
 - Vague job descriptions cause the agent to hallucinate requirements — input validation enforces a minimum length
+- Eval dataset is small (N cases) — expanding it would increase confidence in regressions being caught before they reach production
+
+---
+
+## What I would build next
+
+- Session isolation via session_id so multiple users do not share the vector table
+- Streaming evals that run on every PR via GitHub Actions
+- A second agent that suggests specific resume edits rather than just scoring
+- Multi-model support to compare GPT-4o vs Claude output quality on the same resume
+
 
 ---

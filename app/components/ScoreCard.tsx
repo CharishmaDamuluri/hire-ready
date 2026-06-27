@@ -1,31 +1,29 @@
 import React from 'react';
-import './ScoreCard.css';
 
-const ScoreCard = ({ score, maxScore }) => {
-  const radius = 54;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (score / maxScore) * circumference;
+interface ScoreCardProps {
+  score: number;
+}
+
+const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
+  const strokeDasharray = `${score} ${100 - score}`;
 
   return (
     <div className="score-card">
-      <svg
-        className="progress-ring"
-        width="120"
-        height="120"
-      >
+      <svg className="progress-ring" width="120" height="120">
         <circle
           className="progress-ring__circle"
-          stroke="#4caf50"
+          stroke="blue"
+          strokeWidth="4"
           fill="transparent"
-          strokeWidth="12"
-          strokeDasharray={`${circumference} ${circumference}`}
-          strokeDashoffset={offset}
-          r={radius}
+          r="54"
           cx="60"
           cy="60"
+          style={{ strokeDasharray }}
         />
       </svg>
-      <div className="score">{score} / {maxScore}</div>
+      <div className="score-card__percentage">
+        {score}%
+      </div>
     </div>
   );
 };

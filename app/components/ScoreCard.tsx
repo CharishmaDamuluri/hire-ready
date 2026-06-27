@@ -1,14 +1,14 @@
 import React from 'react';
 
-interface ScoreCardProps {
-  name: string;
+type ScoreCardProps = {
   score: number;
-}
+  playerName: string;
+};
 
-const ScoreCard: React.FC<ScoreCardProps> = ({ name, score }) => {
+const ScoreCard: React.FC<ScoreCardProps> = ({ score, playerName }) => {
   return (
     <div className="score-card">
-      <h2>{name}</h2>
+      <h2>{playerName}</h2>
       <p>Score: {score}</p>
     </div>
   );

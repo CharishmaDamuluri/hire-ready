@@ -1,15 +1,15 @@
 import React from 'react';
 
 interface ScoreCardProps {
-  score: number;
   name: string;
+  score: number;
 }
 
-const ScoreCard: React.FC<ScoreCardProps> = ({ score, name }) => {
+const ScoreCard: React.FC<ScoreCardProps> = ({ name, score }) => {
   return (
     <div className="score-card">
-      <h1>{name}'s Score</h1>
-      <p>{score}</p>
+      <h2>{name}</h2>
+      <p>Score: {score}</p>
     </div>
   );
 };

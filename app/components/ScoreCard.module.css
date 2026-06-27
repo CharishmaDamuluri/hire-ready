@@ -1,0 +1,32 @@
+/* Circular progress ring styling */
+.circularProgressRing {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--progress-color) calc(var(--progress-percent) * 1%),
+    var(--background-color) calc(var(--progress-percent) * 1%)
+  );
+}
+
+/* Percentage text styling */
+.percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+/* Label text styling */
+.label {
+  position: absolute;
+  bottom: -20px;
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--label-color);
+}

@@ -1,31 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { ProgressRing, Container, Score, Verdict } from './styledComponents';
 
-interface ScoreCardProps {
-  score: number;
-}
+const getScoreVerdict = (score) => {
+  if (score >= 80) return 'Excellent';
+  if (score >= 50) return 'Good';
+  return 'Needs Improvement';
+};
 
-const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
-  const strokeDasharray = `${score} ${100 - score}`;
+const ScoreCard = ({ score }) => (
+  <Container>
+    <ProgressRing score={score} />
+    <Score>{score}</Score>
+    <Verdict>{getScoreVerdict(score)}</Verdict>
+  </Container>
+);
 
-  return (
-    <div className="score-card">
-      <svg className="progress-ring" width="120" height="120">
-        <circle
-          className="progress-ring__circle"
-          stroke="blue"
-          strokeWidth="4"
-          fill="transparent"
-          r="54"
-          cx="60"
-          cy="60"
-          style={{ strokeDasharray }}
-        />
-      </svg>
-      <div className="score-card__percentage">
-        {score}%
-      </div>
-    </div>
-  );
+ScoreCard.propTypes = {
+  score: PropTypes.number.isRequired,
 };
 
 export default ScoreCard;

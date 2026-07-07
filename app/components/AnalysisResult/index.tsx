@@ -1,8 +1,8 @@
-import { AnalysisOutput } from "@/app/types/analysis";
 import ScoreCard from "./ScoreCard";
 import SkillsGrid from "./SkillsGrid";
 import CoverLetter from "./CoverLetter";
 import ResumeHighlights from "./ResumeHighlights";
+import { AnalysisOutput } from "@/app/types/analysis";
 
 interface AnalysisResultProps {
   result: AnalysisOutput;

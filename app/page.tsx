@@ -105,10 +105,12 @@ export default function Home() {
             onRetry={handleTryAnotherJob}
           />
         )}
+
         {/* PROGRESS - Show the steps */}
         {(showProgress || showResults) && (
           <AgentProgress steps={analysisState.steps} isWorking={showProgress} />
         )}
+
         {/* DONE - Show results found */}
         {showResults && (
           <>

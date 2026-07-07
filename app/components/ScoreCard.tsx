@@ -1,43 +1,43 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import './ScoreCard.css';
 
-const ScoreCard = ({ score }) => {
-  const size = 100;
-  const strokeWidth = 10;
-  const center = size / 2;
-  const radius = center - strokeWidth / 2;
-  const circumference = 2 * Math.PI * radius;
-  const progress = circumference - (score / 100) * circumference;
+interface ScoreCardProps {
+  score: number;
+  maxScore: number;
+}
+
+const ScoreCard: React.FC<ScoreCardProps> = ({ score, maxScore }) => {
+  const percentage = Math.round((score / maxScore) * 100);
 
   return (
-    <div className="score-card">
-      <svg
-        className="progress-ring"
-        height={size}
-        width={size}
-      >
+    <div className="relative flex items-center justify-center w-24 h-24">
+      <svg className="absolute w-full h-full">
         <circle
-          className="progress-ring__circle"
-          stroke="blue"
-          strokeWidth={strokeWidth}
+          className="text-gray-300"
+          strokeWidth="4"
+          stroke="currentColor"
           fill="transparent"
-          r={radius}
-          cx={center}
-          cy={center}
-          style={{
-            strokeDasharray: circumference,
-            strokeDashoffset: progress,
-          }}
+          r="36"
+          cx="50%"
+          cy="50%"
+        />
+        <circle
+          className="text-blue-500"
+          strokeWidth="4"
+          strokeDasharray="226.2"
+          strokeDashoffset={226.2 - (226.2 * percentage) / 100}
+          strokeLinecap="round"
+          stroke="currentColor"
+          fill="transparent"
+          r="36"
+          cx="50%"
+          cy="50%"
         />
       </svg>
-      <div className="score">{score}</div>
+      <div className="text-center font-bold text-xl">
+        {percentage}%
+      </div>
     </div>
   );
-};
-
-ScoreCard.propTypes = {
-  score: PropTypes.number.isRequired,
 };
 
 export default ScoreCard;

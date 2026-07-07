@@ -64,7 +64,7 @@ export default function ScoreCard({
   summary,
 }: ScoreCardProps) {
   return (
-    <div className="bg-white border rounded-xl p-6 flex items-center justify-between gap-6">
+    <div className="bg-white border rounded-xl p-6 flex items-center justify-between gap-6 transition-opacity duration-0 opacity-0 delay-0 ">
       <div className="flex flex-col items-center">
         <ProgressRing score={matchScore} />
         <span

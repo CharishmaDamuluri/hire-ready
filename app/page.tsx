@@ -7,6 +7,7 @@ import JobInput from "./components/JobDescription";
 import AgentProgress from "./components/AgentProgress";
 import AnalysisResult from "./components/AnalysisResult";
 import ErrorState from "./components/ErrorState";
+import ScoreCard from "./components/ScoreCard";
 
 export default function Home() {
   const [resume, setResume] = useState("");
@@ -27,13 +28,11 @@ export default function Home() {
     analyze(resume, jobDescription);
   }
 
-  // Try another job - keep resume, just reset analysis
   function handleTryAnotherJob() {
     setAnalyzing(false);
     setJobDescription("");
   }
 
-  // Full reset — new resume needed
   async function handleStartOver() {
     await fetch("/api/clear", { method: "DELETE" });
     setAnalyzing(false);
@@ -53,7 +52,6 @@ export default function Home() {
           </p>
         </header>
 
-        {/* Resume upload — always visible, locked after upload */}
         <div
           className={`transition ${resumeReady ? "opacity-60 pointer-events-none" : ""}`}
         >
@@ -66,7 +64,6 @@ export default function Home() {
           />
         </div>
 
-        {/* Resume ready indicator + change option */}
         {resumeReady && (
           <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-4 py-3">
             <p className="text-sm text-green-700 font-medium">
@@ -98,23 +95,21 @@ export default function Home() {
           </div>
         )}
 
-        {/* ERROR */}
         {showError && (
           <ErrorState
             message={analysisState.message}
             onRetry={handleTryAnotherJob}
           />
         )}
-        {/* PROGRESS - Show the steps */}
+
         {(showProgress || showResults) && (
           <AgentProgress steps={analysisState.steps} isWorking={showProgress} />
         )}
-        {/* DONE - Show results found */}
+
         {showResults && (
           <>
             <AnalysisResult result={analysisState.result} />
-
-            {/* Two actions after results */}
+            <ScoreCard score={analysisState.result.score} />
             <div className="flex justify-center gap-6">
               <button
                 onClick={handleTryAnotherJob}

@@ -1,3 +1,5 @@
+"use client";
+
 interface ScoreCardProps {
   matchScore: number;
   verdict: string;
@@ -39,8 +41,11 @@ function ProgressRing({ score }: { score: number }) {
         stroke="#10b981"
         fill="transparent"
         strokeWidth={stroke}
-        strokeDasharray={circumference + ' ' + circumference}
-        style={{ strokeDashoffset }}
+        strokeDasharray={`${circumference} ${circumference}`}
+        style={{
+          strokeDashoffset,
+          transition: 'stroke-dashoffset 1.2s ease'
+        }}
         r={normalizedRadius}
         cx={radius}
         cy={radius}

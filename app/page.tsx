@@ -7,6 +7,7 @@ import JobInput from "./components/JobDescription";
 import AgentProgress from "./components/AgentProgress";
 import AnalysisResult from "./components/AnalysisResult";
 import ErrorState from "./components/ErrorState";
+import ScoreCard from "./components/ScoreCard";
 
 export default function Home() {
   const [resume, setResume] = useState("");
@@ -113,6 +114,7 @@ export default function Home() {
         {showResults && (
           <>
             <AnalysisResult result={analysisState.result} />
+            <ScoreCard score={analysisState.result.score} verdict={analysisState.result.verdict} />
 
             {/* Two actions after results */}
             <div className="flex justify-center gap-6">

@@ -11,17 +11,25 @@ interface AnalysisResultProps {
 export default function AnalysisResult({ result }: AnalysisResultProps) {
   return (
     <section aria-label="Analysis results" className="space-y-4">
-      <ScoreCard
-        matchScore={result.matchScore}
-        verdict={result.verdict}
-        summary={result.summary}
-      />
-      <SkillsGrid
-        matchedSkills={result.matchedSkills}
-        missingSkills={result.missingSkills}
-      />
-      <ResumeHighlights highlights={result.resumeHighlights} />
-      <CoverLetter coverLetter={result.coverLetter} />
+      <div className="transition-opacity duration-300 delay-100">
+        <ScoreCard
+          matchScore={result.matchScore}
+          verdict={result.verdict}
+          summary={result.summary}
+        />
+      </div>
+      <div className="transition-opacity duration-300 delay-200">
+        <SkillsGrid
+          matchedSkills={result.matchedSkills}
+          missingSkills={result.missingSkills}
+        />
+      </div>
+      <div className="transition-opacity duration-300 delay-300">
+        <ResumeHighlights highlights={result.resumeHighlights} />
+      </div>
+      <div className="transition-opacity duration-300 delay-400">
+        <CoverLetter coverLetter={result.coverLetter} />
+      </div>
     </section>
   );
 }

@@ -50,6 +50,24 @@ span.end({ output: result })
 - API routes: kebab-case directory (app/api/setup-db/route.ts)
 - Lib files: kebab-case (agent-tools.ts)
 
+## UI and styling rules
+- Use Tailwind CSS utility classes only — no styled-components, no CSS modules, no inline style objects
+- Never import prop-types — use TypeScript interfaces for all component props
+- Never use React.FC — use function ComponentName({ prop }: Props) pattern
+- All function parameters must be typed — no implicit any
+- SVG elements are fine for custom visuals like progress rings
+- Icons use lucide-react only
+
+## Component props pattern
+interface ScoreCardProps {
+  score: number
+  verdict: string
+}
+
+export function ScoreCard({ score, verdict }: ScoreCardProps) {
+  ...
+}
+
 ## Rules
 - Never import directly from openai — always use Vercel AI SDK
 - Never use fetch inside components — use hooks or server actions

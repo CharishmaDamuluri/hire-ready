@@ -2,39 +2,35 @@ import React from 'react';
 
 interface ScoreCardProps {
   score: number;
-  maxScore: number;
+  verdict: string;
 }
 
-const ScoreCard: React.FC<ScoreCardProps> = ({ score, maxScore }) => {
-  const percentage = Math.round((score / maxScore) * 100);
+const ScoreCard: React.FC<ScoreCardProps> = ({ score, verdict }) => {
+  const getProgressRingColor = (score: number) => {
+    if (score > 75) return 'text-green-500';
+    if (score > 50) return 'text-yellow-500';
+    return 'text-red-500';
+  };
 
   return (
-    <div className="relative flex items-center justify-center w-24 h-24">
-      <svg className="absolute w-full h-full">
-        <circle
-          className="text-gray-300"
-          strokeWidth="4"
-          stroke="currentColor"
-          fill="transparent"
-          r="36"
-          cx="50%"
-          cy="50%"
-        />
-        <circle
-          className="text-blue-500"
-          strokeWidth="4"
-          strokeDasharray="226.2"
-          strokeDashoffset={226.2 - (226.2 * percentage) / 100}
-          strokeLinecap="round"
-          stroke="currentColor"
-          fill="transparent"
-          r="36"
-          cx="50%"
-          cy="50%"
-        />
-      </svg>
-      <div className="text-center font-bold text-xl">
-        {percentage}%
+    <div className="flex flex-col items-center justify-center">
+      <div className="relative">
+        <svg className={`w-32 h-32 ${getProgressRingColor(score)}`} viewBox="0 0 36 36">
+          <path
+            className="stroke-current"
+            strokeWidth="3"
+            fill="none"
+            d="M18 2.0845
+              a 15.9155 15.9155 0 0 1 0 31.831
+              a 15.9155 15.9155 0 0 1 0 -31.831"
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-xl font-bold">{score}%</span>
+        </div>
+      </div>
+      <div className="mt-4">
+        <span className="text-lg text-gray-700">{verdict}</span>
       </div>
     </div>
   );

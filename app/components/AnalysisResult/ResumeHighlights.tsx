@@ -1,3 +1,5 @@
+"use client";
+
 interface ResumeHighlightsProps {
   highlights: string[];
 }
@@ -6,7 +8,7 @@ export default function ResumeHighlights({
   highlights,
 }: ResumeHighlightsProps) {
   return (
-    <div className="bg-white border rounded-xl p-5 space-y-3">
+    <div className="bg-white border rounded-xl p-5 space-y-3 transition-opacity duration-500">
       <h3 className="font-semibold text-gray-800 text-sm">
         💡 Resume Highlights to Emphasize
       </h3>
@@ -17,7 +19,8 @@ export default function ResumeHighlights({
           {highlights.map((highlight, i) => (
             <li
               key={i}
-              className="flex items-start gap-2 text-sm text-gray-700"
+              className="flex items-start gap-2 text-sm text-gray-700 transition-opacity duration-500"
+              style={{ transitionDelay: `${i * 400}ms` }}
             >
               <span
                 className="text-blue-400 mt-0.5 shrink-0"

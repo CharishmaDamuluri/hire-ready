@@ -10,18 +10,20 @@ export default function SkillsGrid({
   missingSkills,
 }: SkillsGridProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 transition-opacity duration-500">
       <SkillsList
         title="✅ Matched Skills"
         skills={matchedSkills}
         chipClass="bg-green-50 text-green-700 border-green-200"
         emptyMessage="No matched skills found"
+        className="delay-[200ms]"
       />
       <SkillsList
         title="❌ Missing Skills"
         skills={missingSkills}
         chipClass="bg-red-50 text-red-700 border-red-200"
         emptyMessage="No missing skills — great match!"
+        className="delay-[400ms]"
       />
     </div>
   );

@@ -19,7 +19,7 @@ export default function CoverLetter({ coverLetter }: CoverLetterProps) {
   }
 
   return (
-    <div className="bg-white border rounded-xl p-5 space-y-3">
+    <div className="bg-white border rounded-xl p-5 space-y-3 transition-opacity duration-500 delay-600">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-gray-800 text-sm">
           Tailored Cover Letter

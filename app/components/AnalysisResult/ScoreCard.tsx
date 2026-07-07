@@ -20,6 +20,47 @@ function getScoreColor(score: number): string {
   return "text-red-600";
 }
 
+function ProgressRing({ score }: { score: number }) {
+  const radius = 50;
+  const stroke = 8;
+  const normalizedRadius = radius - stroke * 2;
+  const circumference = normalizedRadius * 2 * Math.PI;
+  const strokeDashoffset = circumference - (score / 100) * circumference;
+
+  return (
+    <svg className="w-32 h-32" width={radius * 2} height={radius * 2}>
+      <circle
+        stroke="gray"
+        fill="transparent"
+        strokeWidth={stroke}
+        r={normalizedRadius}
+        cx={radius}
+        cy={radius}
+      />
+      <circle
+        stroke="currentColor"
+        fill="transparent"
+        strokeWidth={stroke}
+        strokeDasharray={circumference + ' ' + circumference}
+        style={{ strokeDashoffset }}
+        r={normalizedRadius}
+        cx={radius}
+        cy={radius}
+        className={getScoreColor(score)}
+      />
+      <text
+        x="50%"
+        y="50%"
+        dominantBaseline="middle"
+        textAnchor="middle"
+        className="text-xl font-bold"
+      >
+        {score}%
+      </text>
+    </svg>
+  );
+}
+
 export default function ScoreCard({
   matchScore,
   verdict,
@@ -27,23 +68,13 @@ export default function ScoreCard({
 }: ScoreCardProps) {
   return (
     <div className="bg-white border rounded-xl p-6 flex items-center justify-between gap-6">
-      <div>
-        <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
-          Match Score
-        </p>
-        <p
-          className={`text-6xl font-bold ${getScoreColor(matchScore)}`}
-          aria-label={`Match score ${matchScore} percent`}
-        >
-          {matchScore}%
-        </p>
-      </div>
-      <div className="text-right space-y-2 flex-1">
-        <span
-          className={`inline-block px-3 py-1 rounded-full text-xs font-medium border ${VERDICT_STYLES[verdict]}`}
-        >
+      <div className="flex items-center flex-col">
+        <ProgressRing score={matchScore} />
+        <span className="text-sm font-medium mt-2">
           {verdict}
         </span>
+      </div>
+      <div className="text-right space-y-2 flex-1">
         <p className="text-sm text-gray-500 leading-relaxed">{summary}</p>
       </div>
     </div>

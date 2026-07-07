@@ -1,40 +1,32 @@
 import React from 'react';
-import './ScoreCard.css';
 
 interface ScoreCardProps {
   score: number;
-  maxScore: number;
 }
 
-const ScoreCard: React.FC<ScoreCardProps> = ({ score, maxScore }) => {
-  const radius = 50;
-  const stroke = 10;
-  const normalizedRadius = radius - stroke * 2;
-  const circumference = normalizedRadius * 2 * Math.PI;
-  const strokeDashoffset = circumference - (score / maxScore) * circumference;
+const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
+  const getVerdict = (score: number): string => {
+    if (score > 75) return 'Excellent';
+    if (score > 50) return 'Good';
+    if (score > 25) return 'Average';
+    return 'Poor';
+  };
+
+  const getVerdictLabelClass = (score: number): string => {
+    if (score > 75) return 'text-green-600';
+    if (score > 50) return 'text-blue-600';
+    if (score > 25) return 'text-yellow-600';
+    return 'text-red-600';
+  };
 
   return (
-    <div className="score-card">
-      <h2>Your Score</h2>
-      <svg
-        height={radius * 2}
-        width={radius * 2}
-        className="progress-ring"
-      >
-        <circle
-          stroke="tomato"
-          fill="transparent"
-          strokeWidth={stroke}
-          strokeDasharray={`${circumference} ${circumference}`}
-          style={{ strokeDashoffset }}
-          r={normalizedRadius}
-          cx={radius}
-          cy={radius}
-        />
-      </svg>
-      <div className="score">
-        {score} / {maxScore}
+    <div className="flex flex-col items-center">
+      <div className="relative w-32 h-32 flex items-center justify-center">
+        <div className="absolute w-full h-full rounded-full border-4 border-gray-400" style={{ clip: 'rect(0 32px 32px 16px)' }}></div>
+        <div className="absolute w-full h-full rounded-full border-4 border-current" style={{ clip: 'rect(0 32px 32px 16px)', transform: `rotate(${(score / 100) * 360}deg)` }}></div>
+        <span className="absolute text-lg font-semibold">{score}%</span>
       </div>
+      <span className={`mt-2 text-lg font-medium ${getVerdictLabelClass(score)}`}>{getVerdict(score)}</span>
     </div>
   );
 };
